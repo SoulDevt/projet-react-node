@@ -1,11 +1,6 @@
 {
   "name": "projet-react-node",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SoulDevt/projet-react-node.git"
@@ -16,5 +11,6 @@
   "bugs": {
     "url": "https://github.com/SoulDevt/projet-react-node/issues"
   },
-  "homepage": "https://github.com/SoulDevt/projet-react-node#readme"
+  "homepage": "https://github.com/SoulDevt/projet-react-node#readme",
+  "workspaces": ["back", "front"]
 }
