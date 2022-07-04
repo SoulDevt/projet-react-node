@@ -8,6 +8,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from './Components/Home';
 import Test1 from './Components/Test1';
 import Test2 from './Components/Test2';
+import NotFound from './Components/NotFound';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Route path ='/' element={<Home/>}></Route>
             <Route path ='/test1' element={<Test1/>}></Route>
             <Route path ='/test2' element={<Test2/>}></Route>
+            <Route path ='*' element={<NotFound/>}></Route>
         </Routes>
     </div>
   )
