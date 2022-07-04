@@ -8,8 +8,8 @@ function Home() {
         <> 
             <h1>Hello from Home</h1>
             <Link to="/">Home</Link>
-            <Link to="/test1" style={{marginLeft: '5px'}}>Test1</Link>
-            <Link to="/test1" style={{marginLeft: '5px'}}>Test2</Link>
+            <Link to="/Login" style={{marginLeft: '5px'}}>Login</Link>
+            <Link to="/Register" style={{marginLeft: '5px'}}>Register</Link>
         </>
     );
 
