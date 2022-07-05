@@ -8,9 +8,8 @@ import { Link } from "react-router-dom"
 //Components
 import { Routes, Route } from "react-router-dom";
 import Home from './Components/Home';
-import Test1 from './Components/Test1';
-import Test2 from './Components/Test2';
-import NotFound from './Components/NotFound';
+import Login from './Components/Login';
+import Register from './Components/Register';
 
 function App() {
   return (
