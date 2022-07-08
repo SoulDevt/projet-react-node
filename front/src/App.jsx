@@ -16,14 +16,14 @@ function App() {
     <div className="App">
         <Routes>
             <Route path ={routes.HOME} element={<Home/>}></Route>
-            <Route path ={routes.test1} element={<Login />}></Route>
-            <Route path ={routes.test2} element={<Register />}></Route>
+            <Route path ={routes.login} element={<Login />}></Route>
+            <Route path ={routes.register} element={<Register />}></Route>
             <Route path ='*' element={<NotFound/>}></Route>
         </Routes>
 
         <Link to={routes.HOME}>Home</Link>
-        <Link to={routes.test1} style={{marginLeft: '5px'}}>Login</Link>
-        <Link to={routes.test2} style={{marginLeft: '5px'}}>Register</Link>
+        <Link to={routes.login} style={{marginLeft: '5px'}}>Login</Link>
+        <Link to={routes.register} style={{marginLeft: '5px'}}>Register</Link>
     </div>
   )
 }
