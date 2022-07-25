@@ -2,6 +2,7 @@ const { Router } = require("express");
 const { createToken } = require("../lib/jwt");
 const { User } = require("../models/postgres");
 const { ValidationError } = require("sequelize");
+const bcryptjs = require("bcryptjs");
 
 const router = new Router();
 
@@ -13,7 +14,7 @@ router.post("/login", async (req, res) => {
         email: "Email not found",
       });
     }
-    if (user.password !== req.body.password) {
+    if (!user.hasValidPassword(req.body.password)) {
       return res.status(401).json({
         password: "Password is incorrect",
       });

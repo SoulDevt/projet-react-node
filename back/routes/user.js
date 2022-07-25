@@ -86,4 +86,19 @@ router.get("/users/:id", async (req, res) => {
   }
 });
 
+//Create routes for CRUD of friends for user
+router.get("/users/:id/friends", async (req, res) => {
+    try {
+        const user = await User.findByPk(req.params.id);
+        if (!user) {
+          res.sendStatus(404);
+        } else {
+          res.json(await user.getFollowers());
+        }
+    } catch (error) {
+        res.sendStatus(500);
+        console.error(error);
+    }
+});
+
 module.exports = router;
