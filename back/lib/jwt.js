@@ -5,6 +5,7 @@ exports.createToken = (user) => {
     id: user.id,
     name: user.name,
   };
+
   return jwt.sign(payload, process.env.JWT_SECRET, {
     expiresIn: "1y",
     algorithm: "HS512",

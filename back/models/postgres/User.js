@@ -23,6 +23,18 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    lastname: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    filiere: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    classe: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     isAdmin: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
