@@ -3,7 +3,8 @@ import { React, useState } from 'react'
 import logo from './logo.svg'
 import './App.css'
 import routes from './routes';
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 //Components
 import { Routes, Route } from "react-router-dom";
@@ -13,7 +14,11 @@ import Register from './Components/Register';
 import NotFound from './Components/NotFound'
 function App() {
   return (
-    <div className="App">
+    <div className="container">
+
+        <Link to={routes.HOME}>Home</Link>
+        <Link to={routes.login} style={{marginLeft: '5px'}}>Login</Link>
+        <Link to={routes.register} style={{marginLeft: '5px'}}>Register</Link>
         <Routes>
             <Route path ={routes.HOME} element={<Home/>}></Route>
             <Route path ={routes.login} element={<Login />}></Route>
@@ -21,9 +26,6 @@ function App() {
             <Route path ='*' element={<NotFound/>}></Route>
         </Routes>
 
-        <Link to={routes.HOME}>Home</Link>
-        <Link to={routes.login} style={{marginLeft: '5px'}}>Login</Link>
-        <Link to={routes.register} style={{marginLeft: '5px'}}>Register</Link>
     </div>
   )
 }
