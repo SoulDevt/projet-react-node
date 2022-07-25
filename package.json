@@ -16,9 +16,5 @@
   "workspaces": [
     "back",
     "front"
-  ],
-  "dependencies": {
-    "function-bind": "^1.1.1",
-    "mongoose": "^6.4.6"
-  }
+  ]
 }
