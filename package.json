@@ -13,5 +13,12 @@
     "url": "https://gitlab.com/SoulDevt/projet-react-node/-/issues"
   },
   "homepage": "https://gitlab.com/SoulDevt/projet-react-node",
-  "workspaces": ["back", "front"]
+  "workspaces": [
+    "back",
+    "front"
+  ],
+  "dependencies": {
+    "function-bind": "^1.1.1",
+    "mongoose": "^6.4.6"
+  }
 }
