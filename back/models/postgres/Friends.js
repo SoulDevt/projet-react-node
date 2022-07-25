@@ -32,6 +32,16 @@ Friends.init(
                     key: "id"
                 }
         },
+        accepted: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
+        },
+        denied: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
+        }
     },
     {
         sequelize: connection,

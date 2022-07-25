@@ -52,10 +52,30 @@ User.belongsToMany(User, {
 User.prototype.hasValidPassword = function ( password ) {
     return bcryptjs.compareSync(password, this.password);
 }
-User.prototype.followUser = async function (userId) {
+User.prototype.requestFriendship = async function (userId) {
     await Friends.create({
         follower_user_id: this.id,
         followed_user_id: userId,
+    });
+}
+User.prototype.acceptFriendshipRequest = async function (userId) {
+    await Friends.update({
+        accepted: true,
+    }, {
+        where: {
+            follower_user_id: userId,
+            followed_user_id: this.id,
+        },
+    });
+}
+User.prototype.denyFriendshipRequest = async function (userId) {
+    await Friends.update({
+        denied: true,
+    }, {
+        where: {
+            follower_user_id: userId,
+            followed_user_id: this.id,
+        },
     });
 }
 User.prototype.unfollowUser = async function (userId) {
