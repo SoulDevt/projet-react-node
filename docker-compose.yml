@@ -35,6 +35,13 @@ services:
       - POSTGRES_USER=${POSTGRES_USERNAME}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DATABASE}
+  adminer:
+    depends_on:
+      - db
+    image: adminer
+    ports:
+      - 8080:8080
+
 
 volumes:
   mongo-data: {}
