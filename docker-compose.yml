@@ -24,8 +24,8 @@ services:
       - DATABASE_URL=postgres://${POSTGRES_USERNAME}:${POSTGRES_PASSWORD}@db/${POSTGRES_DATABASE}
       - JWT_SECRET=${JWT_SECRET}
     ports:
-      - "3000:3000"
-    command: npm start
+      - "8000:3000"
+    command: npm run start
 
   db:
     image: postgres:14-alpine
@@ -35,6 +35,12 @@ services:
       - POSTGRES_USER=${POSTGRES_USERNAME}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DATABASE}
+  adminer:
+    depends_on:
+      - db
+    image: adminer
+    ports:
+      - 8080:8080
 
 volumes:
   mongo-data: {}
