@@ -1,5 +1,5 @@
 // Create User model using sequelize with email, password, firstname and isAdmin
-const { Model, DataTypes } = require("sequelize");
+const { Model, DataTypes, Op } = require("sequelize");
 const connection = require("./db");
 const bcryptjs = require("bcryptjs");
 const Friends = require("./Friends");
@@ -99,6 +99,25 @@ User.prototype.isFollowing = async function (userId) {
         where: {
             follower_user_id: this.id,
             followed_user_id: userId,
+        },
+    });
+    return !!friend;
+}
+User.prototype.isFriendsWith = async function (userId) {
+    const friend = await Friends.findOne({
+        where: {
+            [Op.or]: [
+                {
+                    follower_user_id: this.id,
+                    followed_user_id: userId,
+                    accepted: true,
+                },
+                {
+                    follower_user_id: userId,
+                    followed_user_id: this.id,
+                    accepted: true,
+                }
+            ]
         },
     });
     return !!friend;
