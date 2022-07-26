@@ -53,38 +53,46 @@ User.prototype.hasValidPassword = function ( password ) {
     return bcryptjs.compareSync(password, this.password);
 }
 User.prototype.requestFriendship = async function (userId) {
-    await Friends.create({
-        follower_user_id: this.id,
-        followed_user_id: userId,
-    });
+    if (userId !== this.id)
+        await Friends.create({
+            follower_user_id: this.id,
+            followed_user_id: userId,
+        });
+    else throw new Error("You can't request friendship with yourself");
 }
 User.prototype.acceptFriendshipRequest = async function (userId) {
-    await Friends.update({
-        accepted: true,
-    }, {
-        where: {
-            follower_user_id: userId,
-            followed_user_id: this.id,
-        },
-    });
+    if (userId !== this.id)
+        await Friends.update({
+        accepted: true, denied: false,
+        }, {
+            where: {
+                follower_user_id: userId,
+                followed_user_id: this.id,
+            },
+        })
+    else throw new Error("You can't accept friendship with yourself");
 }
 User.prototype.denyFriendshipRequest = async function (userId) {
-    await Friends.update({
-        denied: true,
-    }, {
-        where: {
-            follower_user_id: userId,
-            followed_user_id: this.id,
-        },
-    });
+    if (userId !== this.id)
+        await Friends.update({
+        denied: true, accepted: false,
+        }, {
+            where: {
+                follower_user_id: userId,
+                followed_user_id: this.id,
+            },
+        })
+    else throw new Error("You can't deny friendship with yourself");
 }
 User.prototype.unfollowUser = async function (userId) {
-    await Friends.destroy({
+    if (userId !== this.id)
+        await Friends.destroy({
         where: {
             follower_user_id: this.id,
             followed_user_id: userId,
         },
-    });
+    })
+    else throw new Error("You can't unfollow yourself");
 }
 User.prototype.isFollowing = async function (userId) {
     const friend = await Friends.findOne({
@@ -110,6 +118,25 @@ User.prototype.getFollowed = async function () {
         },
     });
     return followed.map(followed => followed.followed_user_id);
+}
+User.prototype.getFriends = async function () {
+    const friends = await Friends.findAll({
+        where: {
+            follower_user_id: this.id,
+            accepted: true,
+        },
+    });
+    return friends.map(friend => friend.followed_user_id);
+}
+User.prototype.getFriendshipRequests = async function () {
+    const requests = await Friends.findAll({
+        where: {
+            followed_user_id: this.id,
+            accepted: false,
+            denied: false,
+        },
+    });
+    return requests.map(request => request.follower_user_id);
 }
 
 User.addHook("beforeCreate", async (user) => {

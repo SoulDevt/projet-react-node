@@ -86,6 +86,7 @@ router.get("/users/:id", async (req, res) => {
   }
 });
 
+// Friendship routes
 router.get("/users/:id/followers", async (req, res) => {
     try {
         const user = await User.findByPk(req.params.id);
@@ -99,7 +100,6 @@ router.get("/users/:id/followers", async (req, res) => {
         console.error(error);
     }
 });
-//get all users who follow the user
 router.get("/users/:id/following", async (req, res) => {
     try {
         const user = await User.findByPk(req.params.id);
@@ -119,9 +119,10 @@ router.post("/users/:id/friend/:fid/request", async (req, res) => {
         const friend = await User.findByPk(req.params.fid);
         if (!user || !friend) {
           res.sendStatus(404);
-        } else {x
-          await user.requestFriendship(req.params.fid);
-          res.sendStatus(201);
+        } else {
+          await user.requestFriendship(req.params.fid).then(() => {
+            res.sendStatus(201);
+          });
         }
     } catch (error) {
         res.sendStatus(500);
@@ -135,8 +136,9 @@ router.put("/users/:id/friend/:fid/accept", async (req, res) => {
         if (!user || !friend) {
           res.sendStatus(404);
         } else {
-          await user.acceptFriendshipRequest(req.params.fid);
-          res.sendStatus(201);
+          await user.acceptFriendshipRequest(req.params.fid).then(() => {
+            res.sendStatus(201);
+          });
         }
     } catch (error) {
         res.sendStatus(500);
@@ -150,15 +152,15 @@ router.delete("/users/:id/friend/:fid/deny", async (req, res) => {
         if (!user || !friend) {
           res.sendStatus(404);
         } else {
-          await user.denyFriendshipRequest(req.params.fid);
-          res.sendStatus(201);
+          await user.denyFriendshipRequest(req.params.fid).then(() => {
+            res.sendStatus(201);
+          });
         }
     } catch (error) {
         res.sendStatus(500);
         console.error(error);
     }
 });
-//unfollow a friend
 router.delete("/users/:id/friend/:fid/unfollow", async (req, res) => {
     try {
         const user = await User.findByPk(req.params.id);
@@ -166,8 +168,9 @@ router.delete("/users/:id/friend/:fid/unfollow", async (req, res) => {
         if (!user || !friend) {
           res.sendStatus(404);
         } else {
-          await user.unfollowUser(req.params.fid);
-          res.sendStatus(201);
+          await user.unfollowUser(req.params.fid).then(() => {
+            res.sendStatus(201);
+          });
         }
     } catch (error) {
         res.sendStatus(500);
