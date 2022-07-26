@@ -1,9 +1,9 @@
 const express = require("express");
-const ProductRouter = require("./routes/product");
-const UserRouter = require("./routes/user");
-const SecurityRouter = require("./routes/security");
-const PostRouter = require("./routes/post");
-const verifyToken = require("./middlewares/verifyToken");
+const ProductRouter = require("./product");
+const UserRouter = require("./user");
+const SecurityRouter = require("./security");
+const PostRouter = require("./post");
+const verifyToken = require("./back/middlewares/verifyToken");
 const app = express();
 
 app.use(express.json());
