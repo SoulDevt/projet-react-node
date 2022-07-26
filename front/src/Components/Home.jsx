@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-
-function Home() {
+function Home(name) {
     return (
-        <> 
-            <h1>Hello from Home</h1>
+        <>
+            <h1>{name.name ? 'Hello ' + name.name : 'NOT LOGGED'}</h1>
         </>
     );
 
