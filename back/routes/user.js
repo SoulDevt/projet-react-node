@@ -119,6 +119,7 @@ router.post("/users/:id/friend/:fid/request", async (req, res) => {
         const friend = await User.findByPk(req.params.fid);
         if (!user || !friend) {
           res.sendStatus(404);
+          console.log('le caca');
         } else {
           await user.requestFriendship(req.params.fid).then(() => {
             res.sendStatus(201);
@@ -177,5 +178,21 @@ router.delete("/users/:id/friend/:fid/unfollow", async (req, res) => {
         console.error(error);
     }
 });
+
+/* Friend list route */
+router.get("/users/:id/awaitingFriendsRequests", async (req, res) => {
+  try {
+      const user = await User.findByPk(req.params.id);
+      if (!user) {
+        res.sendStatus(404);
+      } else {
+        res.json(await user.getFriendshipRequests());
+      }
+  } catch (error) {
+      res.sendStatus(500);
+      console.error(error);
+  }
+});
+
 
 module.exports = router;

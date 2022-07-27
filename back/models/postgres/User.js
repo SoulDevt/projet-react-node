@@ -4,49 +4,49 @@ const connection = require("./db");
 const bcryptjs = require("bcryptjs");
 const Friends = require("./Friends");
 
-class User extends Model {}
+class User extends Model { }
 
 User.init(
-  {
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        isEmail: true,
-      },
+    {
+        email: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true,
+            validate: {
+                isEmail: true,
+            },
+        },
+        password: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        lastname: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        filiere: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        classe: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        isAdmin: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
+        },
     },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    lastname: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    filiere: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    classe: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    isAdmin: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false,
-    },
-  },
-  {
-    sequelize: connection,
-    modelName: "user",
-    paranoid: true,
-  }
+    {
+        sequelize: connection,
+        modelName: "user",
+        paranoid: true,
+    }
 );
 User.belongsToMany(User, {
     as: "Following",
@@ -61,7 +61,7 @@ User.belongsToMany(User, {
     onDelete: "CASCADE",
 });
 
-User.prototype.hasValidPassword = function ( password ) {
+User.prototype.hasValidPassword = function (password) {
     return bcryptjs.compareSync(password, this.password);
 }
 User.prototype.requestFriendship = async function (userId) {
@@ -75,7 +75,7 @@ User.prototype.requestFriendship = async function (userId) {
 User.prototype.acceptFriendshipRequest = async function (userId) {
     if (userId !== this.id)
         await Friends.update({
-        accepted: true, denied: false,
+            accepted: true, denied: false,
         }, {
             where: {
                 follower_user_id: userId,
@@ -87,7 +87,7 @@ User.prototype.acceptFriendshipRequest = async function (userId) {
 User.prototype.denyFriendshipRequest = async function (userId) {
     if (userId !== this.id)
         await Friends.update({
-        denied: true, accepted: false,
+            denied: true, accepted: false,
         }, {
             where: {
                 follower_user_id: userId,
@@ -99,11 +99,11 @@ User.prototype.denyFriendshipRequest = async function (userId) {
 User.prototype.unfollowUser = async function (userId) {
     if (userId !== this.id)
         await Friends.destroy({
-        where: {
-            follower_user_id: this.id,
-            followed_user_id: userId,
-        },
-    })
+            where: {
+                follower_user_id: this.id,
+                followed_user_id: userId,
+            },
+        })
     else throw new Error("You can't unfollow yourself");
 }
 User.prototype.isFollowing = async function (userId) {
@@ -160,6 +160,7 @@ User.prototype.getFriends = async function () {
     return friends.map(friend => friend.followed_user_id);
 }
 User.prototype.getFriendshipRequests = async function () {
+    let userRequest = [];
     const requests = await Friends.findAll({
         where: {
             followed_user_id: this.id,
@@ -167,20 +168,29 @@ User.prototype.getFriendshipRequests = async function () {
             denied: false,
         },
     });
-    return requests.map(request => request.follower_user_id);
+
+
+    requests.forEach(async (data) => {
+        const tmp = await User.findByPk(data.follower_user_id);
+        userRequest.push(tmp);
+    })
+    // console.log(userRequest);
+    // console.log(requests);
+
+    return userRequest;
 }
 
 User.addHook("beforeCreate", async (user) => {
-  user.password = await bcryptjs.hash(user.password, await bcryptjs.genSalt());
+    user.password = await bcryptjs.hash(user.password, await bcryptjs.genSalt());
 });
 
 User.addHook("beforeUpdate", async (user, { fields }) => {
-  if (fields.includes("password")) {
-    user.password = await bcryptjs.hash(
-      user.password,
-      await bcryptjs.genSalt()
-    );
-  }
+    if (fields.includes("password")) {
+        user.password = await bcryptjs.hash(
+            user.password,
+            await bcryptjs.genSalt()
+        );
+    }
 });
 
 module.exports = User;
