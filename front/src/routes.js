@@ -3,6 +3,7 @@ const routes = {
     login: "/login",
     register: "/register",
     logout: '/logout',
+    users: '/users',
 }
 
 export default routes;

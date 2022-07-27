@@ -3,15 +3,14 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Container, Navbar, Nav } from 'react-bootstrap'
 
 export default function EsgiNavbar(props) {
-  console.log(props);
   return (
     <>
       <Navbar bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="#home">ESGI</Navbar.Brand>
+          <Navbar.Brand href="/">ESGI</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#features">Users</Nav.Link>
+            <Nav.Link href="/users">Users</Nav.Link>
             <Nav.Link href="#pricing">Posts</Nav.Link>
           </Nav>
           {props.isLogged ? (

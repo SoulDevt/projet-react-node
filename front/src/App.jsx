@@ -18,6 +18,8 @@ import NotFound from "./Components/NotFound";
 import Logout from "./Components/Logout";
 import EsgiNavbar from "./Components/EsgiNavbar";
 import Loader from "./Components/Loader";
+import Users from "./Components/Users";
+
 
 function App() {
   const [name, setName] = useState("");
@@ -52,6 +54,7 @@ function App() {
           <Route path={routes.register} element={<Register />}></Route>
           <Route path={routes.logout} element={<Logout />}></Route>
           <Route path="*" element={<NotFound />}></Route>
+          <Route path={routes.users} element={<Users />}></Route>
         </Routes>
       }
     </div>
