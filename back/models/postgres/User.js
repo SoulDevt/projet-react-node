@@ -160,7 +160,6 @@ User.prototype.getFriends = async function () {
     return friends.map(friend => friend.followed_user_id);
 }
 User.prototype.getFriendshipRequests = async function () {
-    let userRequest = [];
     const requests = await Friends.findAll({
         where: {
             followed_user_id: this.id,
@@ -169,15 +168,7 @@ User.prototype.getFriendshipRequests = async function () {
         },
     });
 
-
-    requests.forEach(async (data) => {
-        const tmp = await User.findByPk(data.follower_user_id);
-        userRequest.push(tmp);
-    })
-    // console.log(userRequest);
-    // console.log(requests);
-
-    return userRequest;
+    return requests.map(request => request.follower_user_id);
 }
 
 User.addHook("beforeCreate", async (user) => {
