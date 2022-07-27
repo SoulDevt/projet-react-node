@@ -17,12 +17,14 @@ import NotFound from "./Components/NotFound";
 import Logout from "./Components/Logout";
 import EsgiNavbar from "./Components/EsgiNavbar";
 import Loader from "./Components/Loader";
+import Profile from "./Components/Profile";
 
 function App() {
   const [name, setName] = useState("");
   const [isLogged, setIsLogged] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [userId, setUserId] = useState("");
   
   useEffect(() => {
     setIsLoading(true);
@@ -33,6 +35,7 @@ function App() {
       
     setName(token.name);
     setIsAdmin(token.isAdmin);
+    setUserId(token.id);
     setIsLogged(true);
     setIsLoading(false);
   }, []);
@@ -50,6 +53,7 @@ function App() {
       {isLoading ? <Loader /> : 
         <Routes>
           <Route path={routes.HOME} element={<Home name={name} isLogged={isLogged} />} />
+          <Route path={routes.profile} element={<Profile userId={userId}/>} />
           <Route path={routes.login} element={<Login />}></Route>
           <Route path={routes.register} element={<Register />}></Route>
           <Route path={routes.logout} element={<Logout />}></Route>
