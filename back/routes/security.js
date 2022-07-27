@@ -1,7 +1,15 @@
-const { Router } = require("express");
-const { createToken } = require("../lib/jwt");
-const { User } = require("../models/postgres");
-const { ValidationError } = require("sequelize");
+const {
+    Router
+} = require("express");
+const {
+    createToken
+} = require("../lib/jwt");
+const {
+    User
+} = require("../models/postgres");
+const {
+    ValidationError
+} = require("sequelize");
 const bcryptjs = require("bcryptjs");
 
 const router = new Router();
@@ -27,9 +35,13 @@ router.post("/login", async(req, res) => {
                 password: "Password is incorrect",
             });
         }
-
+        if (user && bcryptjs.compareSync(req.body.password, user.password)) {
+            const token = createToken(user);
+            return res.json({
+                token
+            });
+        }
     } catch (error) {
-        res.sendStatus(500);
         console.error(error.message);
     }
 });

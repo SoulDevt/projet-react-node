@@ -4,6 +4,7 @@ const routes = {
     register: "/register",
     logout: '/logout',
     users: '/users',
+    admin: '/admin',
 }
 
 export default routes;

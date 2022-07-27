@@ -35,7 +35,6 @@ function Test1() {
   
   return (
     <>
-      <h1>Hello from Login</h1>
       <Container>
         <Form onSubmit={login}>
           <Form.Group className="mb-3" controlId="formBasicEmail">

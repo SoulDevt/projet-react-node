@@ -9,9 +9,9 @@ export default function EsgiNavbar(props) {
         <Container>
           <Navbar.Brand href="/">ESGI</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
+            <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/users">Users</Nav.Link>
-            <Nav.Link href="#pricing">Posts</Nav.Link>
+            <Nav.Link href="/admin">Admin</Nav.Link>
           </Nav>
           {props.isLogged ? (
           <Nav>
