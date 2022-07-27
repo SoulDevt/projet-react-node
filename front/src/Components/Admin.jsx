@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Form, Button, FormControl, Container, ListGroup } from "react-bootstrap";
+import { Form, Button, FormControl, Container, ListGroup, Table } from "react-bootstrap";
 
 function Admin(props) {
 
     const [users, setUsers] = useState("");
-    const [messages, setMessages] = useState("");
     const [totalUsers, setTotalUsers] = useState("");
     const [totalMessages, setTotalMessages] = useState("");
+    const [totalMessagesPerUser, setTotalMessagesPerUser] = useState("");
     
     let token = localStorage.getItem("JWT");
+    
     const getDataAdmin = async () => {
         try {
             const response = await fetch("http://localhost:8000/api/admin", {
@@ -20,7 +21,9 @@ function Admin(props) {
                 }
             });
             const data = await response.json();
-            console.log(data);
+            setTotalUsers(data.totalUsers);
+            setTotalMessages(data.totalMessages);
+            setTotalMessagesPerUser(data.totalMessagesPerUser);
         }
         catch (error) {
             console.log(error);
@@ -36,56 +39,60 @@ function Admin(props) {
                 },
             });
             const data = await response.json();
-            // console.log(data);
             setUsers(data);
         }
         catch (error) {
             console.log(error);
         }
     }
-    const getMessages = async () => {
-        try {
-            const response = await fetch("http://localhost:8000/api/messages", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
-            });
-            const data = await response.json();
-            console.log(data);
-            setMessages(data);
-        }
-        catch (error) {
-            console.log(error);
-        }
-    }
+    
     useEffect(() => {
         getUsers();
-        getMessages();
         getDataAdmin();
     }, []);
+    
     useEffect(() => {
-        if (users)
-            users.push(users);
-    }, [users]);
-
+        const timer = setInterval(getDataAdmin, 5000);
+        return () => clearInterval(timer);
+    }, []);
     useEffect(() => {
-    if (messages)
-        messages.push(messages);
-    }, [messages]);
+        const timer = setInterval(getUsers, 5000);
+        return () => clearInterval(timer);
+    }, []);
+    
+    
   return (
     <>
         <h1>Total Users = {totalUsers}</h1>
-        {users && users.map((user, index) => (
-            <ListGroup key={index}>
-                <ListGroup.Item>
-                    <h1>{user.name}</h1>
-                    <h2>{user.email}</h2>
-                    <h2>{user.role}</h2>
-                </ListGroup.Item>
-            </ListGroup>
-        ))}
+        <h1>Total Messages Sent = {totalMessages}</h1>
+        <Table striped bordered hover>
+            <thead>
+                <tr>
+                <th>#</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th># of messages sent</th>
+                <th># of messages received</th>
+                </tr>
+            </thead>
+            <tbody>
+                {users && users.map((user, index) => (
+                <tr>
+                <td>{user.id}</td>
+                <td>{user.name}</td>
+                <td>{user.lastname}</td>
+                <td>{user.email}</td>
+                <td>{totalMessagesPerUser && totalMessagesPerUser.map((message, index) => (
+                    message._id.sender == user.id ? message.count : "0"
+                ))}</td>
+                <td>{totalMessagesPerUser && totalMessagesPerUser.map((message, index) => (
+                    message._id.receiver == user.id ? message.count : "0"
+                ))}</td>
+                </tr>
+                ))}
+            </tbody>
+        </Table>
     </>
   );
 }

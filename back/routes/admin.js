@@ -27,7 +27,11 @@ router.get("/admin", async(req, res) => {
             },
         ]);
         const totalUsers = await User.count();
-        res.json(totalMessages, totalMessagesPerUser, totalUsers);
+        res.json({
+            totalMessages: totalMessages,
+            totalMessagesPerUser: totalMessagesPerUser,
+            totalUsers: totalUsers
+        });
     } catch (error) {
         res.sendStatus(500);
         console.error(error);

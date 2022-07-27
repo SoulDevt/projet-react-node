@@ -22,6 +22,7 @@ function App() {
   const [name, setName] = useState("");
   const [isLogged, setIsLogged] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   
   useEffect(() => {
     setIsLoading(true);
@@ -29,7 +30,9 @@ function App() {
     if (thereIsToken == null)
       return  
     const token = jwt_decode(localStorage.getItem("JWT"));
+      
     setName(token.name);
+    setIsAdmin(token.isAdmin);
     setIsLogged(true);
     setIsLoading(false);
   }, []);
@@ -43,14 +46,14 @@ function App() {
   }, [isLoading]);
   return (
     <div className="App">
-      <EsgiNavbar isLogged={isLogged} name={name}/>
+      <EsgiNavbar isLogged={isLogged} name={name} isAdmin={isAdmin}/>
       {isLoading ? <Loader /> : 
         <Routes>
           <Route path={routes.HOME} element={<Home name={name} isLogged={isLogged} />} />
           <Route path={routes.login} element={<Login />}></Route>
           <Route path={routes.register} element={<Register />}></Route>
           <Route path={routes.logout} element={<Logout />}></Route>
-          <Route path={routes.admin} element={<Admin />}></Route>
+          {isAdmin ? <Route path={routes.admin} element={<Admin />}></Route> : null}
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
       }

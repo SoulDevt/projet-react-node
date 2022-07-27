@@ -9,7 +9,6 @@ const router = new Router();
 router.get("/messages", async(req, res) => {
     try {
         const totalMessages = await Message.estimatedDocumentCount();
-        console.log(totalMessages);
         const totalMessagesPerUser = await Message.aggregate([{
                 $group: {
                     _id: {

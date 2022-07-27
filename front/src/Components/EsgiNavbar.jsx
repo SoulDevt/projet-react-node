@@ -11,7 +11,7 @@ export default function EsgiNavbar(props) {
           <Nav className="me-auto">
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/users">Users</Nav.Link>
-            <Nav.Link href="/admin">Admin</Nav.Link>
+            {props.isAdmin ? <Nav.Link href="/admin">Admin</Nav.Link> : null}
           </Nav>
           {props.isLogged ? (
           <Nav>

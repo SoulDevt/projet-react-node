@@ -22,8 +22,8 @@ function Test2() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                name: nom,
-                lastname: prenom,
+                name: prenom,
+                lastname: nom,
                 email: email,
                 password: password,
                 filiere: filiere,
