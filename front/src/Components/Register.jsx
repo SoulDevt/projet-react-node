@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from "react-router-dom"
+import { Form, Button, FormControl, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom"
+
 
 function Test2() {
     let navigate = useNavigate();
@@ -37,24 +39,71 @@ function Test2() {
 
     return (
         <>
-            <h1>Hello from Register</h1>
-            <form onSubmit={register}>
-                <input type="text" placeholder='Nom' required
-                    onChange={e => setNom(e.target.value)} /><br />
-                <input type="text" placeholder='Prénom' required
-                    onChange={e => setPrenom(e.target.value)} /><br />
-                <input type="mail" placeholder='Email' required
-                    onChange={e => setEmail(e.target.value)} /><br />
-                <input type="password" placeholder='Mot de passe' required
-                    onChange={e => setPassword(e.target.value)} /><br />
-                <input type="text" placeholder='Filiere' required
-                    onChange={e => setFiliere(e.target.value)} /><br />
-                <input type="text" placeholder='Classe' required
-                    onChange={e => setClasse(e.target.value)} /><br />
-                <button type="submit">Register</button>
-            </form>
+            <Container>
+                <Form onSubmit={register}>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Nom</Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder="Enter nom"
+                            required
+                            onChange={(e) => setNom(e.target.value)}
+                        />
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Prénom</Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder="Enter prénom"
+                            required
+                            onChange={(e) => setPrenom(e.target.value)}
+                        />
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control
+                        type="email"
+                        placeholder="Enter email"
+                        required
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <Form.Text className="text-muted">
+                        We'll never share your email with anyone else.
+                    </Form.Text>
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control
+                        type="password"
+                        placeholder="Password"
+                        required
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Filiere</Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder="Enter filiere"
+                            required
+                            onChange={(e) => setFiliere(e.target.value)}
+                        />
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Classe</Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder="Enter classe"
+                            required
+                            onChange={(e) => setClasse(e.target.value)}
+                        />
+                    </Form.Group>
+                    <Button variant="primary" type="submit">
+                        Submit
+                    </Button>
+                </Form>
+            </Container>
         </>
-
     );
 
 }

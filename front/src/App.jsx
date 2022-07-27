@@ -6,13 +6,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import routes from "./routes";
 import { Link } from "react-router-dom";
 import jwt_decode from "jwt-decode";
-import NavLogged from "./Components/NavLogged";
-import NavNotLogged from "./Components/NavNotLogged";
 
 //Components
 import { Routes, Route } from "react-router-dom";
 import Home from "./Components/Home";
 import Login from "./Components/Login";
+import Admin from "./Components/Admin";
 import Register from "./Components/Register";
 import NotFound from "./Components/NotFound";
 import Logout from "./Components/Logout";
@@ -51,6 +50,7 @@ function App() {
           <Route path={routes.login} element={<Login />}></Route>
           <Route path={routes.register} element={<Register />}></Route>
           <Route path={routes.logout} element={<Logout />}></Route>
+          <Route path={routes.admin} element={<Admin />}></Route>
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
       }

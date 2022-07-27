@@ -21,10 +21,6 @@ router.post("/login", async(req, res) => {
                 email: req.body.email
             }
         });
-        res.json({
-            token: createToken(user),
-            user: user,
-        });
         if (!user) {
             return res.status(401).json({
                 email: "Email not found",
@@ -35,9 +31,14 @@ router.post("/login", async(req, res) => {
                 password: "Password is incorrect",
             });
         }
-
+        if (user && bcryptjs.compareSync(req.body.password, user.password)) {
+            const token = createToken(user);
+            return res.json({
+                token,
+                s
+            });
+        }
     } catch (error) {
-        res.sendStatus(500);
         console.error(error.message);
     }
 });
