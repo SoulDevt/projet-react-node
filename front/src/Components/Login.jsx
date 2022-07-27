@@ -19,7 +19,6 @@ function Test1() {
         body: JSON.stringify({ email, password }),
       });
       const data = await response.json();
-      console.log(data);
       if (data.token) {
         localStorage.setItem("JWT", data.token);
         setRedirect(true);

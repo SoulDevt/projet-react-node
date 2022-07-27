@@ -38,6 +38,7 @@ router.post("/login", async(req, res) => {
             });
         }
     } catch (error) {
+        res.sendStatus(500);
         console.error(error.message);
     }
 });

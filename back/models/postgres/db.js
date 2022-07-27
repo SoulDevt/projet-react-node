@@ -1,8 +1,7 @@
 const Sequelize = require("sequelize");
 
-const connection = new Sequelize("app", "root", "password", {
-    host: 'db',
-    dialect: 'postgres'
+const connection = new Sequelize(process.env.DATABASE_URL, {
+    useNewUrlParser: true,
 });
 connection
     .authenticate()
