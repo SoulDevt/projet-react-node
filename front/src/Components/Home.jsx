@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
-function Home(name) {
+function Home(props) {
+    
+    const [isLogged, setIsLogged] = useState(false);
+    
+    useEffect(() => {
+        setIsLogged(props.isLogged);
+    }, [props.isLogged])
     return (
         <>
-            <h1>{name.name ? 'Hello ' + name.name : 'NOT LOGGED'}</h1>
+            <h1>{isLogged ? 'Hello ' + props.name : 'NOT LOGGED'}</h1>
         </>
     );
 

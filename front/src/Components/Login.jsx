@@ -1,49 +1,72 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import { Form, Button, FormControl, Container } from "react-bootstrap";
 
 function Test1() {
-    let navigate = useNavigate();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [redirect, setRedirect] = useState(false);
+  let navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [redirect, setRedirect] = useState(false);
 
-    const login = async (e) => {
-        e.preventDefault();
-        await fetch('http://localhost:8000/login', {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, password })
-        })
-        .then(res => res.json())
-        .then(data => {
-            localStorage.setItem('JWT', data.token);
-        })
+  const login = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:8000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
+      if (data.token) {
+        localStorage.setItem("JWT", data.token);
         setRedirect(true);
+      }
     }
-
-    if (redirect) {
-        navigate("/", { replace: true });
+    catch (error) {
+      console.log(error);
     }
+  };
+  useEffect(() => {
+    if (redirect)
+      navigate("/", { replace: true });
+  }, [redirect]);
+  
+  return (
+    <>
+      <h1>Hello from Login</h1>
+      <Container>
+        <Form onSubmit={login}>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="Enter email"
+              required
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
+            </Form.Text>
+          </Form.Group>
 
-    return (
-        <>
-            <h1>Hello from Login</h1>
-            <form onSubmit={login}>
-                <input type="text" placeholder='Email' required
-                    onChange={e => setEmail(e.target.value)} /><br />
-                <input type="password" placeholder='Mot de passe' required 
-                    onChange={e => setPassword(e.target.value)}/><br />
-                <button type="submit">Login</button>
-            </form>
-        </>
-
-    );
-
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              required
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Form.Group>
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </Form>
+      </Container>
+    </>
+  );
 }
 
 export default Test1;
