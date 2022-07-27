@@ -3,13 +3,14 @@ const ProductRouter = require("./routes/product");
 const UserRouter = require("./routes/user");
 const SecurityRouter = require("./routes/security");
 const PostRouter = require("./routes/post");
+const AdminRouter = require("./routes/admin");
 const verifyToken = require("./middlewares/verifyToken");
 const cors = require('cors');
 const app = express();
 
 app.use(express.json());
 // app.use(cors());
-app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
+app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 app.use(
     express.urlencoded({
         extended: true,
@@ -26,10 +27,8 @@ app.get("/", (req, res, next) => {
 
 app.use("/", SecurityRouter);
 
-app.use("/api", verifyToken, ProductRouter, UserRouter, PostRouter);
+app.use("/api", verifyToken, ProductRouter, UserRouter, PostRouter, AdminRouter);
 
 app.listen(process.env.PORT, () => {
     console.log("Server is listening on port " + process.env.PORT);
 });
-
-

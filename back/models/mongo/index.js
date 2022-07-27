@@ -1,2 +1,2 @@
 exports.mongoose = require("./db");
-exports.Product = require("./Product");
+exports.Message = require("./Message");
