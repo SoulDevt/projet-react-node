@@ -6,9 +6,12 @@ const router = new Router();
 
 router.get("/users", async(req, res) => {
     try {
-        const users = await User.findAll({ where: req.query, order: [
+        const users = await User.findAll({
+            where: req.query,
+            order: [
                 ['id', 'ASC']
-            ] });
+            ]
+        });
         res.json(users);
     } catch (error) {
         res.sendStatus(500);
@@ -50,8 +53,7 @@ router.put("/users/:id", async(req, res) => {
         if (error instanceof ValidationError) {
             console.error(error);
             res.status(422).json({
-                quantity: "must be greather than 0",
-                title: "must not be empty",
+                name: "must not be empty",
             });
         } else {
             res.sendStatus(500);
