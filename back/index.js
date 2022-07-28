@@ -3,6 +3,7 @@ const UserRouter = require("./routes/user");
 const SecurityRouter = require("./routes/security");
 const AdminRouter = require("./routes/admin");
 const verifyToken = require("./middlewares/verifyToken");
+const MessageRouter = require("./routes/message");
 const cors = require('cors');
 const app = express();
 
@@ -16,7 +17,6 @@ app.use(
 );
 
 app.get("/", (req, res, next) => {
-    console.log("test");
     res.json({
         title: "coucou",
     });
@@ -25,7 +25,7 @@ app.get("/", (req, res, next) => {
 
 app.use("/", SecurityRouter);
 
-app.use("/api", verifyToken, UserRouter, AdminRouter);
+app.use("/api", verifyToken, UserRouter, AdminRouter, MessageRouter);
 
 app.listen(process.env.PORT, () => {
     console.log("Server is listening on port " + process.env.PORT);

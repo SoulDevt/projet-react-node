@@ -8,9 +8,9 @@ function Admin(props) {
     const [totalUsers, setTotalUsers] = useState("");
     const [totalMessages, setTotalMessages] = useState("");
     const [totalMessagesPerUser, setTotalMessagesPerUser] = useState("");
-    
+
     let token = localStorage.getItem("JWT");
-    
+
     const getDataAdmin = async () => {
         try {
             const response = await fetch("http://localhost:8000/api/admin", {
@@ -45,12 +45,12 @@ function Admin(props) {
             console.log(error);
         }
     }
-    
+
     useEffect(() => {
         getUsers();
         getDataAdmin();
     }, []);
-    
+
     useEffect(() => {
         const timer = setInterval(getDataAdmin, 5000);
         return () => clearInterval(timer);

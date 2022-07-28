@@ -18,6 +18,7 @@ import Logout from "./Components/Logout";
 import EsgiNavbar from "./Components/EsgiNavbar";
 import Loader from "./Components/Loader";
 import Profile from "./Components/Profile";
+import Users from "./Components/Users";
 
 function App() {
   
@@ -60,6 +61,7 @@ function App() {
           <Route path={routes.login} element={<Login />}></Route>
           <Route path={routes.register} element={<Register />}></Route>
           <Route path={routes.logout} element={<Logout />}></Route>
+            <Route path={routes.users} element={<Users />}></Route>
           {isAdmin ? <Route path={routes.admin} element={<Admin />}></Route> : null}
           <Route path="*" element={<NotFound />}></Route>
         </Routes>

@@ -26,7 +26,7 @@ router.post("/users", async(req, res) => {
     } catch (error) {
         if (error instanceof ValidationError) {
             res.status(422).json({
-                quantity: "must be greather than 0",
+                quantity: "must be greater than 0",
                 title: "must not be empty",
             });
         } else {
@@ -53,7 +53,8 @@ router.put("/users/:id", async(req, res) => {
         if (error instanceof ValidationError) {
             console.error(error);
             res.status(422).json({
-                name: "must not be empty",
+                quantity: "must be greater than 0",
+                title: "must not be empty",
             });
         } else {
             res.sendStatus(500);
@@ -89,5 +90,113 @@ router.get("/users/:id", async(req, res) => {
         console.error(error);
     }
 });
+
+// Friendship routes
+router.get("/users/:id/followers", async(req, res) => {
+    try {
+        const user = await User.findByPk(req.params.id);
+        if (!user) {
+            res.sendStatus(404);
+        } else {
+            res.json(await user.getFollowers());
+        }
+    } catch (error) {
+        res.sendStatus(500);
+        console.error(error);
+    }
+});
+router.get("/users/:id/following", async(req, res) => {
+    try {
+        const user = await User.findByPk(req.params.id);
+        if (!user) {
+            res.sendStatus(404);
+        } else {
+            res.json(await user.getFollowed());
+        }
+    } catch (error) {
+        res.sendStatus(500);
+        console.error(error);
+    }
+});
+router.post("/users/:id/friend/:fid/request", async(req, res) => {
+    try {
+        const user = await User.findByPk(req.params.id);
+        const friend = await User.findByPk(req.params.fid);
+        if (!user || !friend) {
+            res.sendStatus(404);
+        } else {
+            await user.requestFriendship(req.params.fid).then(() => {
+                res.sendStatus(201);
+            });
+        }
+    } catch (error) {
+        res.sendStatus(500);
+        console.error(error);
+    }
+});
+router.put("/users/:id/friend/:fid/accept", async(req, res) => {
+    try {
+        const user = await User.findByPk(req.params.id);
+        const friend = await User.findByPk(req.params.fid);
+        if (!user || !friend) {
+            res.sendStatus(404);
+        } else {
+            await user.acceptFriendshipRequest(req.params.fid).then(() => {
+                res.sendStatus(201);
+            });
+        }
+    } catch (error) {
+        res.sendStatus(500);
+        console.error(error);
+    }
+});
+router.delete("/users/:id/friend/:fid/deny", async(req, res) => {
+    try {
+        const user = await User.findByPk(req.params.id);
+        const friend = await User.findByPk(req.params.fid);
+        if (!user || !friend) {
+            res.sendStatus(404);
+        } else {
+            await user.denyFriendshipRequest(req.params.fid).then(() => {
+                res.sendStatus(201);
+            });
+        }
+    } catch (error) {
+        res.sendStatus(500);
+        console.error(error);
+    }
+});
+router.delete("/users/:id/friend/:fid/unfollow", async(req, res) => {
+    try {
+        const user = await User.findByPk(req.params.id);
+        const friend = await User.findByPk(req.params.fid);
+        if (!user || !friend) {
+            res.sendStatus(404);
+        } else {
+            await user.unfollowUser(req.params.fid).then(() => {
+                res.sendStatus(201);
+            });
+        }
+    } catch (error) {
+        res.sendStatus(500);
+        console.error(error);
+    }
+});
+
+/* Friend list route */
+router.get("/users/:id/awaitingFriendsRequests", async(req, res) => {
+    try {
+        const user = await User.findByPk(req.params.id);
+        if (!user) {
+            res.sendStatus(404);
+        } else {
+            res.json(await user.getFriendshipRequests());
+        }
+    } catch (error) {
+        res.sendStatus(500);
+        console.error(error);
+    }
+});
+
 
 module.exports = router;
