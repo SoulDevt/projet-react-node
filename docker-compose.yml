@@ -15,6 +15,7 @@ services:
 
   server:
     image: node:lts-alpine
+    container_name: node
     volumes:
       - ./back:/usr/local/back
     working_dir: /usr/local/back
@@ -39,6 +40,7 @@ services:
       - POSTGRES_DB=${POSTGRES_DATABASE}
     ports:
       - "5432:5432"
+
   adminer:
     depends_on:
       - db

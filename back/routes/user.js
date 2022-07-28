@@ -88,111 +88,125 @@ router.get("/users/:id", async (req, res) => {
 
 // Friendship routes
 router.get("/users/:id/followers", async (req, res) => {
-    try {
-        const user = await User.findByPk(req.params.id);
-        if (!user) {
-          res.sendStatus(404);
-        } else {
-          res.json(await user.getFollowers());
-        }
-    } catch (error) {
-        res.sendStatus(500);
-        console.error(error);
+  try {
+    const user = await User.findByPk(req.params.id);
+    if (!user) {
+      res.sendStatus(404);
+    } else {
+      res.json(await user.getFollowers());
     }
+  } catch (error) {
+    res.sendStatus(500);
+    console.error(error);
+  }
 });
 router.get("/users/:id/following", async (req, res) => {
-    try {
-        const user = await User.findByPk(req.params.id);
-        if (!user) {
-          res.sendStatus(404);
-        } else {
-          res.json(await user.getFollowed());
-        }
-    } catch (error) {
-        res.sendStatus(500);
-        console.error(error);
+  try {
+    const user = await User.findByPk(req.params.id);
+    if (!user) {
+      res.sendStatus(404);
+    } else {
+      res.json(await user.getFollowed());
     }
+  } catch (error) {
+    res.sendStatus(500);
+    console.error(error);
+  }
 });
 router.post("/users/:id/friend/:fid/request", async (req, res) => {
-    try {
-        const user = await User.findByPk(req.params.id);
-        const friend = await User.findByPk(req.params.fid);
-        if (!user || !friend) {
-          res.sendStatus(404);
-          console.log('le caca');
-        } else {
-          await user.requestFriendship(req.params.fid).then(() => {
-            res.sendStatus(201);
-          });
-        }
-    } catch (error) {
-        res.sendStatus(500);
-        console.error(error);
+  try {
+    const user = await User.findByPk(req.params.id);
+    const friend = await User.findByPk(req.params.fid);
+    if (!user || !friend) {
+      res.sendStatus(404);
+      console.log('le caca');
+    } else {
+      await user.requestFriendship(req.params.fid).then(() => {
+        res.sendStatus(201);
+      });
     }
+  } catch (error) {
+    res.sendStatus(500);
+    console.error(error);
+  }
 });
 router.put("/users/:id/friend/:fid/accept", async (req, res) => {
-    try {
-        const user = await User.findByPk(req.params.id);
-        const friend = await User.findByPk(req.params.fid);
-        if (!user || !friend) {
-          res.sendStatus(404);
-        } else {
-          await user.acceptFriendshipRequest(req.params.fid).then(() => {
-            res.sendStatus(201);
-          });
-        }
-    } catch (error) {
-        res.sendStatus(500);
-        console.error(error);
+  try {
+    const user = await User.findByPk(req.params.id);
+    const friend = await User.findByPk(req.params.fid);
+    if (!user || !friend) {
+      res.sendStatus(404);
+    } else {
+      await user.acceptFriendshipRequest(req.params.fid).then(() => {
+        res.sendStatus(201);
+      });
     }
+  } catch (error) {
+    res.sendStatus(500);
+    console.error(error);
+  }
 });
 router.delete("/users/:id/friend/:fid/deny", async (req, res) => {
-    try {
-        const user = await User.findByPk(req.params.id);
-        const friend = await User.findByPk(req.params.fid);
-        if (!user || !friend) {
-          res.sendStatus(404);
-        } else {
-          await user.denyFriendshipRequest(req.params.fid).then(() => {
-            res.sendStatus(201);
-          });
-        }
-    } catch (error) {
-        res.sendStatus(500);
-        console.error(error);
+  try {
+    const user = await User.findByPk(req.params.id);
+    const friend = await User.findByPk(req.params.fid);
+    if (!user || !friend) {
+      res.sendStatus(404);
+    } else {
+      await user.denyFriendshipRequest(req.params.fid).then(() => {
+        res.sendStatus(201);
+      });
     }
+  } catch (error) {
+    res.sendStatus(500);
+    console.error(error);
+  }
 });
 router.delete("/users/:id/friend/:fid/unfollow", async (req, res) => {
-    try {
-        const user = await User.findByPk(req.params.id);
-        const friend = await User.findByPk(req.params.fid);
-        if (!user || !friend) {
-          res.sendStatus(404);
-        } else {
-          await user.unfollowUser(req.params.fid).then(() => {
-            res.sendStatus(201);
-          });
-        }
-    } catch (error) {
-        res.sendStatus(500);
-        console.error(error);
+  try {
+    const user = await User.findByPk(req.params.id);
+    const friend = await User.findByPk(req.params.fid);
+    if (!user || !friend) {
+      res.sendStatus(404);
+    } else {
+      await user.unfollowUser(req.params.fid).then(() => {
+        res.sendStatus(201);
+      });
     }
+  } catch (error) {
+    res.sendStatus(500);
+    console.error(error);
+  }
 });
 
 /* Friend list route */
 router.get("/users/:id/awaitingFriendsRequests", async (req, res) => {
   try {
-      const user = await User.findByPk(req.params.id);
-      if (!user) {
-        res.sendStatus(404);
-      } else {
-        res.json(await user.getFriendshipRequests());
-      }
+    const user = await User.findByPk(req.params.id);
+    if (!user) {
+      res.sendStatus(404);
+    } else {
+      res.json(await user.getFriendshipRequests());
+    }
   } catch (error) {
-      res.sendStatus(500);
-      console.error(error);
+    res.sendStatus(500);
+    console.error(error);
   }
 });
+
+router.get("/users/:id/friends", async (req, res) => {
+  try {
+    const user = await User.findByPk(req.params.id);
+    if (!user) {
+      res.sendStatus(404);
+    } else {
+      res.json(await user.getFriendshipRequests());
+    }
+  } catch (error) {
+    res.sendStatus(500);
+    console.error(error);
+  }
+})
 
 
 module.exports = router;

@@ -48,6 +48,7 @@ User.init(
         paranoid: true,
     }
 );
+
 User.belongsToMany(User, {
     as: "Following",
     through: Friends,
@@ -179,6 +180,39 @@ User.prototype.getFriendshipRequests = async function () {
     
     return requestsWithFollower;
     //return requests.map(request => request.follower_user_id);
+}
+
+// load friends by user id
+User.prototype.getFriendsByUserId = async function (userId) {
+    const friends = await Friends.findAll({
+        where: {
+            [Op.or]: [
+                {
+                    follower_user_id: this.id,
+                    followed_user_id: userId,
+                    // accepted: true,
+                },
+                {
+                    follower_user_id: userId,
+                    followed_user_id: this.id,
+                    // accepted: true,
+                }
+            ]
+        },
+        include:
+            [
+                {
+                    model: User,
+                    as: "Following",
+                },
+                {
+                    model: User,
+                    as: "Followed",
+                }
+            ]
+        }
+    );
+    return friends.map(friend => friend.follower_user_id);
 }
 
 User.addHook("beforeCreate", async (user) => {

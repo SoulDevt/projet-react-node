@@ -5,7 +5,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "nodemon index.js",
+        "start": "npm i && nodemon index.js",
         "test": "echo \"Error: no test specified\" && exit 1",
         "dev": "npm i && node index.js",
         "d:s:u": "node migrate.js"
@@ -22,6 +22,8 @@
         "mongoose-fakery": "^0.1.7",
         "pg": "^8.7.3",
         "sequelize": "^6.21.2",
+        "socket.io": "^4.5.1",
+        "uuid": "^8.3.2",
         "winston": "^3.8.1",
         "winston-mongodb": "^5.0.7"
     },
