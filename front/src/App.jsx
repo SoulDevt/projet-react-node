@@ -21,6 +21,7 @@ import Profile from "./Components/Profile";
 import Users from "./Components/Users";
 
 function App() {
+  
   const [name, setName] = useState("");
   const [isLogged, setIsLogged] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -39,6 +40,7 @@ function App() {
     setUserId(token.id);
     setIsLogged(true);
     setIsLoading(false);
+    
   }, []);
   
   useEffect(() => {
@@ -48,6 +50,7 @@ function App() {
       setIsLoading(false);
     }, 1000);
   }, [isLoading]);
+  
   return (
     <div className="App">
       <EsgiNavbar isLogged={isLogged} name={name} isAdmin={isAdmin}/>
