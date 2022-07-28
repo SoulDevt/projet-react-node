@@ -168,7 +168,17 @@ User.prototype.getFriendshipRequests = async function () {
         },
     });
 
-    return requests.map(request => request.follower_user_id);
+    // For each FriendshipRequest, get the follower user
+    const requestsWithFollower = await Promise.all(requests.map(async request => {
+        const follower = await User.findByPk(request.follower_user_id);
+        return {
+            ...request.dataValues,
+            follower,
+        };
+    }));
+    
+    return requestsWithFollower;
+    //return requests.map(request => request.follower_user_id);
 }
 
 User.addHook("beforeCreate", async (user) => {
