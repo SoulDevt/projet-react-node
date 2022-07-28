@@ -11,30 +11,29 @@ function Profile(props) {
   const [password, setPassword] = useState("");
   const [filiere, setFiliere] = useState("");
   const [classe, setClasse] = useState("");
-  const [redirect, setRedirect] = useState(false);
 
-  const profile = async () => {
-    try {
-      const response = await fetch("http://localhost:8000/api/users/" + props.userId, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-        }
-      });
-        const data = await response.json();
-        setNom(data.lastname);
-        setPrenom(data.name);
-        setEmail(data.email);
-        setPassword(data.password);
-        setFiliere(data.filiere);
-        setClasse(data.classe);
-    }
-    catch (error) {
-      console.log(error);
-    }
-  };
     useEffect(() => {
+        const profile = async () => {
+            try {
+              const response = await fetch("http://localhost:8000/api/users/" + props.userId, {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
+              });
+                const data = await response.json();
+                setNom(data[0].lastname);
+                setPrenom(data[0].name);
+                setEmail(data[0].email);
+                setPassword(data[0].password);
+                setFiliere(data[0].filiere);
+                setClasse(data[0].classe);
+            }
+            catch (error) {
+              console.log(error);
+            }
+        }
         profile();
     }, []);
     
