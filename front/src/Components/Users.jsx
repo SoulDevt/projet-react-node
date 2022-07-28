@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import jwt_decode from "jwt-decode";
-import { set } from 'mongoose';
 
 
 
@@ -17,7 +16,7 @@ function Users() {
     }, [])
 
     const friendRequest = async () => {
-        const reponse = await fetch("http://localhost:8000/api/users/" + connectedUser.id + "/awaitingFriendsRequests", {
+        const reponse = await fetch(import.meta.env.VITE_API_URL + "/api/users/" + connectedUser.id + "/awaitingFriendsRequests", {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("JWT")
             }
@@ -31,7 +30,7 @@ function Users() {
 
     const getRequestsUsersById = async () => {
         friendRequests.forEach(async (el) => {
-            const reponse = await fetch("http://localhost:8000/api/users/" + el, {
+            const reponse = await fetch(import.meta.env.VITE_API_URL + "/api/users/" + el, {
                 headers: {
                     Authorization: "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjEsIm5hbWUiOiJvdGhlciIsImlhdCI6MTY1ODk0MDM5MywiZXhwIjoxNjkwNDk3OTkzfQ.vpYp63QFTleK1R1h_4s6n2g3LSC6hwQv6EjpwTIAar66DsMNnbpQJC9KvZRWPu759OQLvr_NkPL_eYs7RYOWnQ"
                 }
@@ -42,7 +41,7 @@ function Users() {
     }
 
     const fetchUsers = async () => {
-        const response = await fetch("http://localhost:8000/api/users", {
+        const response = await fetch(import.meta.env.VITE_API_URL + "/api/users", {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("JWT")
             }
@@ -52,7 +51,7 @@ function Users() {
     }
 
     const addFriend = async (uId, fId) => {
-        const reponse = await fetch("http://localhost:8000/api/users/" + uId + "/friend/" + fId + "/request", {
+        const reponse = await fetch(import.meta.env.VITE_API_URL + "/api/users/" + uId + "/friend/" + fId + "/request", {
             method: "POST",
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("JWT"),

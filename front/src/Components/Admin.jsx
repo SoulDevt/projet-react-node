@@ -13,7 +13,7 @@ function Admin(props) {
 
     const getDataAdmin = async () => {
         try {
-            const response = await fetch("http://localhost:8000/api/admin", {
+            const response = await fetch(import.meta.env.VITE_API_URL + "/api/admin", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -31,7 +31,7 @@ function Admin(props) {
     }
     const getUsers = async () => {
         try {
-            const response = await fetch("http://localhost:8000/api/users", {
+            const response = await fetch(import.meta.env.VITE_API_URL + "/api/users", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

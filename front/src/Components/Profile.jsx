@@ -15,7 +15,7 @@ function Profile(props) {
 
   const profile = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/users/" + props.userId, {
+      const response = await fetch(import.meta.env.VITE_API_URL + "/api/users/" + props.userId, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
